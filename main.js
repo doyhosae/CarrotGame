@@ -35,6 +35,7 @@ function play(){
     let maxY = Math.floor(157);
     
 
+    //carrot
     for (let i = 0; i < 10; i ++){
         let x;
         let y;
@@ -43,7 +44,8 @@ function play(){
         init(x, y);
     }
 
-    for (let i = 0; i < 5; i ++){
+    //bug
+    for (let i = 0; i < 8; i ++){
         let x;
         let y;
         x = Math.floor(Math.random() * (maxX - minX)) + minX;
@@ -51,9 +53,10 @@ function play(){
         bugInit(x, y);
     }
 
-    game__score.innerHTML = "10";
+    const carrotAll = document.querySelectorAll(".carrot");
+    game__score.innerHTML = carrotAll.length;
 
-    timer();
+    callTimer();
 }
 
 function score(){
@@ -64,7 +67,7 @@ function score(){
     } else if(carrot_coordinate.length === 0){
         game__score.innerHTML = carrot_coordinate.length;
         popUp__message.innerHTML = "Congratulation!!🤗";
-        timer("success");
+        stopTimer();
         popUpHide.style.display = "block";
     };
 }
@@ -75,59 +78,45 @@ function hide(e){
         score();
     } else if(e.target.className ==="bug"){
         popUpHide.style.display = "block";
+        stopTimer();
         losePopUp();
-
     };
 }
-function timer(confirm){
-    let time = 5;
-    let x;
 
-    if(confirm != "success"){
-        x = setInterval(function() {
-            //이 안에 if문으로 넣으면 어떨까? setInterval은 별개로 계속 되는듯
-            game__timer.innerHTML = time;
-            time--;
-            if(time < 0){
-                clearInterval(x);
-                game__timer.innerHTML = "0";
-                popUpHide.style.display = "block";
-                losePopUp();
-            }
-        }, 1000);
-    } else if (confirm === "success"){
-        clearInterval(x);
-        console.log(confirm);
-    };
-    
-    // if(confirm === "success"){
-    //     clearInterval(x);
-    //     console.log(confirm);
-    // } else{
-    //     x = setInterval(function() {
-    //         game__timer.innerHTML = time;
-    //         time--;
-    //         if(time < 0){
-    //             clearInterval(x);
-    //             game__timer.innerHTML = "0";
-    //             popUpHide.style.display = "block";
-    //             losePopUp();
-    //         }
-    //     }, 1000);
-    // };
+let x;
+let time = 20;
+
+function stopTimer(){
+    clearInterval(x);
+    popUpHide.style.display = "block";
+}
+
+function callTimer(){
+    x = setInterval("timer()", 1000);
+}
+
+function timer(confirm){
+    // x = setInterval(function() {
+        game__timer.innerHTML = `${time}s`;
+        time--;
+        
+        if(time < 0){
+            stopTimer();
+            losePopUp();
+        };
+    // }, 1000);
 }
 
 function losePopUp(){
     popUp__message.innerHTML = "Lose🤣";
-    timer("success");
 
 }
 
-function popUpRefresh(){
-    const carrotC = document.querySelectorAll(".carrot");
-    e.target.remove();
-    score();
-}
+// function popUpRefresh(){
+//     const carrotC = document.querySelectorAll(".carrot");
+//     e.target.remove();
+//     score();
+// }
 
 function pauseBtn(e){
     if(e.target.className === "fas fa-play-circle"){
@@ -144,8 +133,14 @@ function playPause(){
 
 game__field.addEventListener('click', hide, false);
 faPlayCircle.addEventListener('click', pauseBtn, false);
-popUp__refresh.addEventListener('click', popUpRefresh, false);
+// popUp__refresh.addEventListener('click', popUpRefresh, false);
 popUp__refresh.addEventListener('click', () => {
+    const carrotAll = document.querySelectorAll(".carrot");
+    const bugAll = document.querySelectorAll(".bug");
+
+    carrotAll.forEach(element => element.remove());
+    bugAll.forEach(element => element.remove());
+
     popUpHide.style.display = "none";
     play();
 });
