@@ -6,6 +6,16 @@ const popUp__refresh = document.querySelector(".pop-up__refresh");
 const popUp__message = document.querySelector(".pop-up__message");
 const game__timer = document.querySelector(".game__timer");
 const game__header = document.querySelector(".game__header");
+let x;
+let time;
+let isStop = false;
+
+bgAudio = new Audio("./sound/bg.mp3");
+bugAudio = new Audio("./sound/bug_pull.mp3");
+carrotAudio = new Audio("./sound/carrot_pull.mp3");
+gameWinAudio = new Audio("./sound/game_win.mp3");
+alerrtAudio = new Audio("./sound/alert.wav");
+bgAudio.play();
 
 function init(x, y){
     const newCarrot = document.createElement("img");
@@ -33,6 +43,8 @@ function play(){
     let maxX = Math.floor(720);
     let minY = Math.ceil(0);
     let maxY = Math.floor(157);
+
+    time = 20;
     
 
     //carrot
@@ -68,6 +80,7 @@ function score(){
         game__score.innerHTML = carrot_coordinate.length;
         popUp__message.innerHTML = "Congratulation!!🤗";
         stopTimer();
+        gameWinAudio.play();
         popUpHide.style.display = "block";
     };
 }
@@ -75,16 +88,15 @@ function score(){
 function hide(e){
     if (e.target.className === "carrot"){
         e.target.remove();
+        carrotAudio.play();
         score();
     } else if(e.target.className ==="bug"){
+        bugAudio.play();
         popUpHide.style.display = "block";
         stopTimer();
         losePopUp();
     };
 }
-
-let x;
-let time = 20;
 
 function stopTimer(){
     clearInterval(x);
@@ -97,38 +109,39 @@ function callTimer(){
 
 function timer(confirm){
     // x = setInterval(function() {
-        game__timer.innerHTML = `${time}s`;
-        time--;
-        
-        if(time < 0){
-            stopTimer();
-            losePopUp();
+        if(isStop){
+            console.log("stop!");
+        } else{
+            game__timer.innerHTML = `${time}s`;
+            time--;
+            
+            if(time < 0){
+                stopTimer();
+                losePopUp();
+            };
         };
     // }, 1000);
 }
 
 function losePopUp(){
     popUp__message.innerHTML = "Lose🤣";
-
 }
-
-// function popUpRefresh(){
-//     const carrotC = document.querySelectorAll(".carrot");
-//     e.target.remove();
-//     score();
-// }
 
 function pauseBtn(e){
     if(e.target.className === "fas fa-play-circle"){
         faPlayCircle.className = "fas fa-pause-circle";
+        alerrtAudio.play();
+        isStop = false;
         play();
     } else if(e.target.className === "fas fa-pause-circle"){
-        playPause();
+        faPlayCircle.className = "fas fa-play-circle";
+        alerrtAudio.play();
+        timerPause();
     };
 }
 
-function playPause(){
-    console.log("pause");
+function timerPause(){
+    isStop = true;
 }
 
 game__field.addEventListener('click', hide, false);
@@ -137,6 +150,8 @@ faPlayCircle.addEventListener('click', pauseBtn, false);
 popUp__refresh.addEventListener('click', () => {
     const carrotAll = document.querySelectorAll(".carrot");
     const bugAll = document.querySelectorAll(".bug");
+
+    alerrtAudio.play();
 
     carrotAll.forEach(element => element.remove());
     bugAll.forEach(element => element.remove());
