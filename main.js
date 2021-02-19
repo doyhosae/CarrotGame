@@ -42,8 +42,6 @@ function play(){
     const carrot = document.querySelectorAll(".carrot");
     
     if(carrot.length > 0){
-        timer = achiveTimer;
-        timer();
         return;
     };
     let minX = Math.ceil(0);
@@ -86,29 +84,34 @@ function score(){
     } else if(carrot_coordinate.length === 0){
         game__score.innerHTML = carrot_coordinate.length;
         popUp__message.innerHTML = "Congratulation!!🤗";
-        stopTimer();
+        timerPause();
         gameWinAudio.play();
         popUpHide.style.display = "block";
     };
 }
 
 function hide(e){
-    if (e.target.className === "carrot"){
-        e.target.remove();
-        carrotAudio.play();
-        score();
-    } else if(e.target.className ==="bug"){
-        bugAudio.play();
-        popUpHide.style.display = "block";
-        stopTimer();
-        losePopUp();
+    if(faPlayCircle.className === "fas fa-play-circle" || popUpHide.style.display === "block"){
+        // alerrtAudio.play();
+        // timerPause();
+    } else if(faPlayCircle.className === "fas fa-pause-circle"){
+        if (e.target.className === "carrot"){
+            e.target.remove();
+            carrotAudio.play();
+            score();
+        } else if(e.target.className ==="bug"){
+            bugAudio.play();
+            popUpHide.style.display = "block";
+            losePopUp();
+        };
     };
+    
 }
 
-function stopTimer(){
-    clearInterval(x);
-    popUpHide.style.display = "block";
-}
+// function stopTimer(){
+//     clearInterval(x);
+//     popUpHide.style.display = "block";
+// }
 
 function callTimer(){
     x = setInterval("timer()", 1000);
@@ -133,13 +136,14 @@ function timer(confirm){
 
 function losePopUp(){
     popUp__message.innerHTML = "Lose🤣";
+    timerPause();
 }
 
 function pauseBtn(e){
     if(e.target.className === "fas fa-play-circle"){
         faPlayCircle.className = "fas fa-pause-circle";
         alerrtAudio.play();
-        isStop = false;
+        timerPlay();
         play();
     } else if(e.target.className === "fas fa-pause-circle"){
         faPlayCircle.className = "fas fa-play-circle";
@@ -152,6 +156,10 @@ function timerPause(){
     isStop = true;
 }
 
+function timerPlay(){
+    isStop = false;
+}
+
 function popUpRefresh(){
     const carrotAll = document.querySelectorAll(".carrot");
     const bugAll = document.querySelectorAll(".bug");
@@ -162,6 +170,8 @@ function popUpRefresh(){
     bugAll.forEach(element => element.remove());
 
     popUpHide.style.display = "none";
+    clearInterval(x);
+    timerPlay();
     play();
 }
 
