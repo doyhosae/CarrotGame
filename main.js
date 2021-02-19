@@ -16,7 +16,6 @@ bugAudio = new Audio("./sound/bug_pull.mp3");
 carrotAudio = new Audio("./sound/carrot_pull.mp3");
 gameWinAudio = new Audio("./sound/game_win.mp3");
 alerrtAudio = new Audio("./sound/alert.wav");
-// bgAudio.play();
 
 let promise = bgAudio.play();
 
@@ -27,7 +26,7 @@ if (promise !== undefined) {
       // Autoplay was prevented.
       // Show a "Play" button so that user can start playback.
     });
-  }
+}
 
 
 function init(x, y){
@@ -119,11 +118,6 @@ function hide(e){
     };
     
 }
-
-// function stopTimer(){
-//     clearInterval(x);
-//     popUpHide.style.display = "block";
-// }
 
 function callTimer(){
     x = setInterval("timer()", 1000);
