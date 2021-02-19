@@ -49,7 +49,7 @@ function play(){
     let minY = Math.ceil(0);
     let maxY = Math.floor(157);
 
-    time = 20;
+    time = 2;
     
 
     //carrot
@@ -127,7 +127,8 @@ function timer(confirm){
             time--;
             
             if(time < 0){
-                stopTimer();
+                timerPause();
+                popUpHide.style.display = "block";
                 losePopUp();
             };
         };
