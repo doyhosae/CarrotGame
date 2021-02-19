@@ -16,7 +16,19 @@ bugAudio = new Audio("./sound/bug_pull.mp3");
 carrotAudio = new Audio("./sound/carrot_pull.mp3");
 gameWinAudio = new Audio("./sound/game_win.mp3");
 alerrtAudio = new Audio("./sound/alert.wav");
-bgAudio.play();
+// bgAudio.play();
+
+let promise = bgAudio.play();
+
+if (promise !== undefined) {
+    promise.then(_ => {
+      // Autoplay started!
+    }).catch(error => {
+      // Autoplay was prevented.
+      // Show a "Play" button so that user can start playback.
+    });
+  }
+
 
 function init(x, y){
     const newCarrot = document.createElement("img");
