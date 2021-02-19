@@ -11,25 +11,14 @@ let time;
 let achiveTimer;
 let isStop = false;
 
-bgAudio = new Audio("./sound/bg.mp3");
-bugAudio = new Audio("./sound/bug_pull.mp3");
-carrotAudio = new Audio("./sound/carrot_pull.mp3");
-gameWinAudio = new Audio("./sound/game_win.mp3");
-alerrtAudio = new Audio("./sound/alert.wav");
-
-let promise = bgAudio.play();
-
-if (promise !== undefined) {
-    promise.then(_ => {
-      // Autoplay started!
-    }).catch(error => {
-      // Autoplay was prevented.
-      // Show a "Play" button so that user can start playback.
-    });
-}
-
+let bgAudio = new Audio("./sound/bg.mp3");
+let bugAudio = new Audio("./sound/bug_pull.mp3");
+let carrotAudio = new Audio("./sound/carrot_pull.mp3");
+let gameWinAudio = new Audio("./sound/game_win.mp3");
+let alerrtAudio = new Audio("./sound/alert.wav");
 
 function init(x, y){
+    bgAudio.play();
     const newCarrot = document.createElement("img");
     newCarrot.setAttribute("class", "carrot");
     newCarrot.setAttribute("src", "img/carrot.png")
