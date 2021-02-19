@@ -8,6 +8,7 @@ const game__timer = document.querySelector(".game__timer");
 const game__header = document.querySelector(".game__header");
 let x;
 let time;
+let achiveTimer;
 let isStop = false;
 
 bgAudio = new Audio("./sound/bg.mp3");
@@ -38,7 +39,13 @@ function bugInit(x, y){
 }
 
 function play(){
-    // const carrot = document.querySelector(".carrot");
+    const carrot = document.querySelectorAll(".carrot");
+    
+    if(carrot.length > 0){
+        timer = achiveTimer;
+        timer();
+        return;
+    };
     let minX = Math.ceil(0);
     let maxX = Math.floor(720);
     let minY = Math.ceil(0);
@@ -111,6 +118,7 @@ function timer(confirm){
     // x = setInterval(function() {
         if(isStop){
             console.log("stop!");
+            achiveTimer = timer;
         } else{
             game__timer.innerHTML = `${time}s`;
             time--;
@@ -144,10 +152,7 @@ function timerPause(){
     isStop = true;
 }
 
-game__field.addEventListener('click', hide, false);
-faPlayCircle.addEventListener('click', pauseBtn, false);
-// popUp__refresh.addEventListener('click', popUpRefresh, false);
-popUp__refresh.addEventListener('click', () => {
+function popUpRefresh(){
     const carrotAll = document.querySelectorAll(".carrot");
     const bugAll = document.querySelectorAll(".bug");
 
@@ -158,4 +163,20 @@ popUp__refresh.addEventListener('click', () => {
 
     popUpHide.style.display = "none";
     play();
-});
+}
+
+game__field.addEventListener('click', hide, false);
+faPlayCircle.addEventListener('click', pauseBtn, false);
+popUp__refresh.addEventListener('click', popUpRefresh, false);
+// popUp__refresh.addEventListener('click', () => {
+//     const carrotAll = document.querySelectorAll(".carrot");
+//     const bugAll = document.querySelectorAll(".bug");
+
+//     alerrtAudio.play();
+
+//     carrotAll.forEach(element => element.remove());
+//     bugAll.forEach(element => element.remove());
+
+//     popUpHide.style.display = "none";
+//     play();
+// });
