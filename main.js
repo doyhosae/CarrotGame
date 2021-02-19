@@ -49,7 +49,7 @@ function play(){
     let minY = Math.ceil(0);
     let maxY = Math.floor(157);
 
-    time = 2;
+    time = 10;
     
 
     //carrot
