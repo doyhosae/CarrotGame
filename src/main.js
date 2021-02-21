@@ -5,9 +5,9 @@ import {GameBuilder, Reason} from './game.js';
     
 const gameFinishBanner = new PopUp();
 const game = new GameBuilder()
-    .withGameDuration(5)
-    .withCarrotCount(3)
-    .withBugCount(3)
+    .withGameDuration(10)
+    .withCarrotCount(10)
+    .withBugCount(10)
     .build();
 
 game.setGameStopListener(reason => {
